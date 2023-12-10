@@ -1,0 +1,28 @@
+server:
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: simple-platform
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${db.host}:${db.port}/${db.name}
+    username: ${db.user}
+    password: ${db.password}
+db:
+  name: simple-platform
+  host: db
+  port: 5432
+  user: work
+  password: 123456
+
+simple:
+  token:
+    token-name: sp-token
+    login:
+      tokenTimeout: 30D
+    path:
+      permit:
+        - /sign/**

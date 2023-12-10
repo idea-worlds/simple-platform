@@ -1,0 +1,6 @@
+db:
+  name: simple-platform
+  host: 127.0.0.1
+  port: 5432
+  user: work
+  password: 123456
