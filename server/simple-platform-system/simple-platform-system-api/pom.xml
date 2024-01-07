@@ -10,30 +10,18 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>simple-platform-system-domain</artifactId>
+    <artifactId>simple-platform-system-api</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>dev.simpleframework</groupId>
-            <artifactId>simple-platform-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.simpleframework</groupId>
-            <artifactId>simple-crud</artifactId>
+            <artifactId>simple-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
     </dependencies>
 

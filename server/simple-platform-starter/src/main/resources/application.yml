@@ -20,7 +20,7 @@ db:
 
 simple:
   token:
-    token-name: sp-token
+    token-name: x-sp-token
     login:
       tokenTimeout: 30D
     path:

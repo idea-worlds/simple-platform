@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.simpleframework</groupId>
-            <artifactId>simple-platform-system-client</artifactId>
+            <artifactId>simple-platform-system-api</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.simpleframework</groupId>
@@ -30,6 +30,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.simpleframework</groupId>
+            <artifactId>simple-token</artifactId>
         </dependency>
     </dependencies>
 

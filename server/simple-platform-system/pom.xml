@@ -18,7 +18,7 @@
 
     <modules>
         <module>simple-platform-system-adapter</module>
-        <module>simple-platform-system-client</module>
+        <module>simple-platform-system-api</module>
         <module>simple-platform-system-domain</module>
     </modules>
 
@@ -31,7 +31,7 @@
             </dependency>
             <dependency>
                 <groupId>dev.simpleframework</groupId>
-                <artifactId>simple-platform-system-client</artifactId>
+                <artifactId>simple-platform-system-api</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
