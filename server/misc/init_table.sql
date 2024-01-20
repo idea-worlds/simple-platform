@@ -15,7 +15,7 @@ create table sys_user
     workspaces        jsonb                    default '{}'::jsonb        not null,
     orgs              text[]                   default ARRAY []::text[]   not null,
     sort_no           smallint                 default 0                  not null,
-    status            text                                                not null
+    status            smallint                 default 0                  not null
 );
 comment on table sys_user is '系统用户';
 comment on column sys_user.create_time is '创建时间';
@@ -76,30 +76,30 @@ create table sys_workspace
     create_user bigint                                             not null,
     update_time timestamp with time zone default CURRENT_TIMESTAMP not null,
     update_user bigint                                             not null,
-    type        text                                               not null,
     code        text                                               not null,
+    type        text                                               not null,
     name        text                                               not null,
     icon        text,
     ext_flag    smallint                 default 0                 not null,
     ext_url     text,
     ext_info    jsonb,
     sort_no     smallint                 default 0                 not null,
-    enable_flag smallint                 default 0                 not null
+    status      smallint                                           not null
 );
 comment on table sys_workspace is '工作空间';
 comment on column sys_workspace.create_time is '创建时间';
 comment on column sys_workspace.create_user is '创建人';
 comment on column sys_workspace.update_time is '修改时间';
 comment on column sys_workspace.update_user is '修改人';
-comment on column sys_workspace.type is '类型';
 comment on column sys_workspace.code is '编码';
+comment on column sys_workspace.type is '类型';
 comment on column sys_workspace.name is '名称';
 comment on column sys_workspace.icon is '图标';
 comment on column sys_workspace.ext_flag is '是否外部应用';
 comment on column sys_workspace.ext_url is '外部链接';
 comment on column sys_workspace.ext_info is '外部信息';
 comment on column sys_workspace.sort_no is '序号';
-comment on column sys_workspace.enable_flag is '是否启用';
+comment on column sys_workspace.status is '状态';
 create unique index idx_sw_code on sys_workspace (code);
 create index idx_sw_sort on sys_workspace (sort_no desc);
 

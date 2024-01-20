@@ -1,28 +1,24 @@
 package dev.simpleframework.platform.system.infra.constant;
 
 /**
- * 用户状态
+ * 工作空间状态
  *
  * @author loyayz (loyayz@foxmail.com)
  */
-public final class UserStatus {
+public final class WorkspaceStatus {
 
-    /**
-     * 未审核
-     */
-    public static final UserStatus INACTIVE = new UserStatus(-1);
     /**
      * 停用
      */
-    public static final UserStatus DISABLE = new UserStatus(0);
+    public static final WorkspaceStatus DISABLE = new WorkspaceStatus(0);
     /**
      * 正常
      */
-    public static final UserStatus ENABLE = new UserStatus(1);
+    public static final WorkspaceStatus ENABLE = new WorkspaceStatus(1);
 
     private final Integer name;
 
-    private UserStatus(Integer name) {
+    private WorkspaceStatus(Integer name) {
         this.name = name;
     }
 
@@ -30,12 +26,11 @@ public final class UserStatus {
         return this.name;
     }
 
-    public static UserStatus valueOf(Integer name) {
+    public static WorkspaceStatus valueOf(Integer name) {
         if (name == null) {
             return null;
         }
         return switch (name) {
-            case -1 -> INACTIVE;
             case 0 -> DISABLE;
             case 1 -> ENABLE;
             default -> null;
@@ -61,7 +56,7 @@ public final class UserStatus {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof UserStatus o) {
+        if (obj instanceof WorkspaceStatus o) {
             return this.name.equals(o.name);
         }
         return false;

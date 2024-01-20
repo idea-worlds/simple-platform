@@ -16,7 +16,7 @@ public class SignUpExecutor extends SysUserAddExecutor {
     }
 
     @Override
-    protected UserStatus userStatus() {
+    protected UserStatus initUserStatus() {
         return UserStatus.INACTIVE;
     }
 

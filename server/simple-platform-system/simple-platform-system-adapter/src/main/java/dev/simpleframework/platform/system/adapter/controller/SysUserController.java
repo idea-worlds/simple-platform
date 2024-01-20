@@ -7,6 +7,7 @@ import dev.simpleframework.platform.commons.IdsArgs;
 import dev.simpleframework.platform.system.api.SysUserApi;
 import dev.simpleframework.platform.system.model.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -55,7 +56,7 @@ public class SysUserController {
      * 新增用户
      */
     @PostMapping(value = "")
-    public Long add(@RequestBody SysUserAddArgs args) {
+    public Long add(@Validated @RequestBody SysUserAddArgs args) {
         // 非【系统管理】新增用户时只能设置当前工作空间
         String workspace = CommonUtils.getCurrentWorkspace();
         if (!CommonUtils.isAdminWorkspace(workspace)) {
@@ -68,30 +69,14 @@ public class SysUserController {
      * 修改用户信息
      */
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody SysUserUpdateArgs args) {
+    public void update(@PathVariable Long id, @Validated @RequestBody SysUserUpdateArgs args) {
         this.api.updateUser(id, args);
     }
 
     /**
      * 删除用户
      */
-    @DeleteMapping("/{id}")
-    public void remove(@PathVariable Long id) {
-        String workspace = CommonUtils.getCurrentWorkspace();
-        // 【系统管理】删除用户
-        if (CommonUtils.isAdminWorkspace(workspace)) {
-            this.api.removeUser(Collections.singletonList(id));
-        }
-        // 非【系统管理】删除用户的当前工作空间
-        else {
-            this.api.removeWorkspaces(Collections.singletonList(id), workspace);
-        }
-    }
-
-    /**
-     * 删除用户（批量）
-     */
-    @DeleteMapping("/batch")
+    @DeleteMapping("")
     public void remove(@RequestBody IdsArgs args) {
         String workspace = CommonUtils.getCurrentWorkspace();
         // 【系统管理】删除用户
@@ -107,7 +92,7 @@ public class SysUserController {
     /**
      * 设置用户工作空间
      */
-    @PostMapping("/workspaces/{id}")
+    @PatchMapping("/workspaces/{id}")
     public void setWorkspaces(@PathVariable Long id, @RequestBody SysUserSetWorkspacesArgs args) {
         this.api.setWorkspaces(id, args);
     }
@@ -115,7 +100,7 @@ public class SysUserController {
     /**
      * 设置用户组织
      */
-    @PostMapping("/orgs/{id}")
+    @PatchMapping("/orgs/{id}")
     public void setOrgs(@PathVariable Long id, @RequestBody SysUserSetOrgsArgs args) {
         this.api.setOrgs(id, args.getOrgs());
     }

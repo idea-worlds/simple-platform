@@ -1,7 +1,7 @@
 package dev.simpleframework.platform.integration.spring;
 
 import dev.simpleframework.core.CommonResponse;
-import dev.simpleframework.token.exception.SimpleTokenException;
+import dev.simpleframework.token.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -52,9 +52,17 @@ public class SpringWebMvcExceptionResolver {
     @ExceptionHandler(SimpleTokenException.class)
     public CommonResponse<String> handler(HttpServletRequest request, HttpServletResponse response,
                                           SimpleTokenException exception) {
-        response.setStatus(500);
+        int code = 500;
+        if (exception instanceof AbstractLoginException
+                || exception instanceof InvalidTokenException) {
+            code = 401;
+        } else if (exception instanceof InvalidPermissionException
+                || exception instanceof InvalidRoleException) {
+            code = 403;
+        }
+        response.setStatus(code);
         log.error(this.errorMsg(request, exception), exception);
-        return CommonResponse.failure("500", exception.getMessage());
+        return CommonResponse.failure(String.valueOf(code), exception.getMessage());
     }
 
     private String errorMsg(HttpServletRequest request, Throwable exception) {

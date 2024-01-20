@@ -47,7 +47,7 @@ public class SysUserResponse {
     /**
      * 状态
      */
-    private String status;
+    private Integer status;
     /**
      * 创建时间
      */

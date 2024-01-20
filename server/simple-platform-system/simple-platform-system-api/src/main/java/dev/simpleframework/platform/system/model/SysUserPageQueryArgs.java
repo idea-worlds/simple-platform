@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class SysUserPageQueryArgs {
+
     /**
      * 关键字（用户名、手机号、邮箱）
      */
@@ -28,7 +29,7 @@ public class SysUserPageQueryArgs {
     /**
      * 状态
      */
-    private String status;
+    private Integer status;
 
     public String getKeyword() {
         return "".equals(keyword) ? null : keyword;
@@ -44,10 +45,6 @@ public class SysUserPageQueryArgs {
 
     public String getOrg() {
         return "".equals(org) ? null : org;
-    }
-
-    public String getStatus() {
-        return "".equals(status) ? null : status;
     }
 
 }

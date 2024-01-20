@@ -57,7 +57,7 @@ public class SysUserAddExecutor {
         user.setEmail(this.args.getEmail());
         user.setSex(this.args.getSex());
         user.setOrgs(this.args.getOrgs());
-        user.setStatus(this.userStatus().name());
+        user.setStatus(this.initUserStatus().name());
         user.setSortNo(0);
         user.changeWorkspaces(this.args.getWorkspaces());
         return user;
@@ -73,7 +73,7 @@ public class SysUserAddExecutor {
         return Collections.singletonList(account);
     }
 
-    protected UserStatus userStatus() {
+    protected UserStatus initUserStatus() {
         return UserStatus.ENABLE;
     }
 

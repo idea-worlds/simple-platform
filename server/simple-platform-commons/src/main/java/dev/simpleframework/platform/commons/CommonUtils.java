@@ -4,11 +4,9 @@ import dev.simpleframework.core.Pair;
 import dev.simpleframework.token.SimpleTokens;
 import dev.simpleframework.token.context.ContextManager;
 import dev.simpleframework.token.session.SessionInfo;
+import dev.simpleframework.util.Strings;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author loyayz (loyayz@foxmail.com)
@@ -40,11 +38,11 @@ public final class CommonUtils {
     }
 
     /**
-     * 获取当前登录用户所有的工作空间
+     * 获取当前登录用户的工作空间信息 <code,userTypes>
      */
-    public static Set<String> getLoginUserWorkspaces() {
+    public static Map<String, List<String>> getLoginUserWorkspaceInfo() {
         Map<String, List<String>> result = SimpleTokens.getSession().attr(CommonConstant.SESSION_WORKSPACES);
-        return result == null ? Collections.emptySet() : result.keySet();
+        return result == null ? Collections.emptyMap() : result;
     }
 
     /**
@@ -73,6 +71,22 @@ public final class CommonUtils {
      */
     public static boolean isHomeWorkspace(String workspace) {
         return CommonConstant.WORKSPACE_HOME.equals(workspace);
+    }
+
+    public static boolean parseBool(Integer num) {
+        if (num == null) {
+            return false;
+        }
+        return num == 1;
+    }
+
+    public static List<String> parseList(String str) {
+        if (Strings.isBlank(str)) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(str.split(","))
+                .filter(Strings::hasText)
+                .toList();
     }
 
 }

@@ -51,7 +51,7 @@ public class SysUser extends BaseDataModel<SysUser> {
     /**
      * 状态
      */
-    private String status;
+    private Integer status;
 
     /**
      * 设置工作空间

@@ -2,7 +2,7 @@ package dev.simpleframework.platform.integration.token;
 
 import dev.simpleframework.platform.commons.CommonUtils;
 import dev.simpleframework.token.SimpleTokens;
-import dev.simpleframework.token.exception.NotPermissionException;
+import dev.simpleframework.token.exception.InvalidPermissionException;
 import dev.simpleframework.token.path.PathActionExecutor;
 import dev.simpleframework.token.path.PathActionInit;
 import dev.simpleframework.token.path.PathInfo;
@@ -35,15 +35,15 @@ public class TokenPathActionInit implements PathActionInit {
     private void checkWorkspace() {
         String currentWorkspace = CommonUtils.getCurrentWorkspace();
         if (Strings.isBlank(currentWorkspace)) {
-            throw new NotPermissionException("workspace is blank");
+            throw new InvalidPermissionException("workspace is blank");
         }
         if (CommonUtils.isHomeWorkspace(currentWorkspace)) {
             return;
         }
-        if (CommonUtils.getLoginUserWorkspaces().contains(currentWorkspace)) {
+        if (CommonUtils.getLoginUserWorkspaceInfo().containsKey(currentWorkspace)) {
             return;
         }
-        throw new NotPermissionException("workspace [" + currentWorkspace + "]");
+        throw new InvalidPermissionException("workspace [" + currentWorkspace + "]");
     }
 
 }
