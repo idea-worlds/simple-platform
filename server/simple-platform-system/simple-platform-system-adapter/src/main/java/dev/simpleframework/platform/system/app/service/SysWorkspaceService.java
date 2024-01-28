@@ -6,17 +6,17 @@ import dev.simpleframework.crud.core.Page;
 import dev.simpleframework.crud.core.QueryConfig;
 import dev.simpleframework.crud.core.QuerySorters;
 import dev.simpleframework.platform.system.api.SysWorkspaceApi;
-import dev.simpleframework.platform.system.app.converter.SysWorkspaceConverter;
+import dev.simpleframework.platform.system.app.converter.SysConverter;
 import dev.simpleframework.platform.system.app.executor.SysWorkspaceAddExecutor;
 import dev.simpleframework.platform.system.app.executor.SysWorkspaceChangeStatusExecutor;
 import dev.simpleframework.platform.system.app.executor.SysWorkspaceRemoveExecutor;
 import dev.simpleframework.platform.system.app.executor.SysWorkspaceUpdateExecutor;
 import dev.simpleframework.platform.system.infra.constant.WorkspaceStatus;
 import dev.simpleframework.platform.system.infra.data.SysWorkspace;
-import dev.simpleframework.platform.system.model.SysWorkspaceAddArgs;
+import dev.simpleframework.platform.system.model.SysWorkspaceModifyArgs;
 import dev.simpleframework.platform.system.model.SysWorkspacePageQueryArgs;
 import dev.simpleframework.platform.system.model.SysWorkspaceResponse;
-import dev.simpleframework.platform.system.model.SysWorkspaceUpdateArgs;
+import dev.simpleframework.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +30,14 @@ import java.util.List;
 public class SysWorkspaceService implements SysWorkspaceApi {
 
     @Override
-    public SysWorkspaceResponse findWorkspace(Long id) {
-        SysWorkspace workspace = new SysWorkspace().findById(id);
-        return SysWorkspaceConverter.toResponse(workspace);
+    public SysWorkspaceResponse findWorkspace(String code) {
+        if (Strings.isBlank(code)) {
+            return null;
+        }
+        QueryConfig conditions = QueryConfig.of()
+                .addCondition(SysWorkspace::getCode, ConditionType.equal, code);
+        SysWorkspace workspace = new SysWorkspace().findOneByConditions(conditions);
+        return SysConverter.toResponse(workspace);
     }
 
     @Override
@@ -46,12 +51,12 @@ public class SysWorkspaceService implements SysWorkspaceApi {
                 .addSorter(QuerySorters.desc(SysWorkspace::getSortNo));
         Page<SysWorkspaceResponse> page = new SysWorkspace()
                 .pageByConditions(pageNum, pageSize, config)
-                .convert(SysWorkspaceConverter::toResponse);
+                .convert(SysConverter::toResponse);
         return PageData.of(pageNum, pageSize, page.getTotal(), page.getItems());
     }
 
     @Override
-    public List<SysWorkspaceResponse> findWorkspacesByCodes(List<String> codes) {
+    public List<SysWorkspaceResponse> findWorkspaces(List<String> codes) {
         if (codes == null || codes.isEmpty()) {
             return Collections.emptyList();
         }
@@ -64,38 +69,38 @@ public class SysWorkspaceService implements SysWorkspaceApi {
         }
         return new SysWorkspace().listByConditions(config)
                 .stream()
-                .map(SysWorkspaceConverter::toResponse)
+                .map(SysConverter::toResponse)
                 .toList();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long addWorkspace(SysWorkspaceAddArgs args) {
-        return new SysWorkspaceAddExecutor(args).exec();
+    public void addWorkspace(SysWorkspaceModifyArgs args) {
+        new SysWorkspaceAddExecutor(args).exec();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateWorkspace(Long id, SysWorkspaceUpdateArgs args) {
-        new SysWorkspaceUpdateExecutor(id, args).exec();
+    public void updateWorkspace(SysWorkspaceModifyArgs args) {
+        new SysWorkspaceUpdateExecutor(args).exec();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeWorkspaces(List<Long> ids) {
-        new SysWorkspaceRemoveExecutor(ids).exec();
+    public void removeWorkspaces(List<String> codes) {
+        new SysWorkspaceRemoveExecutor(codes).exec();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void enable(List<Long> ids) {
-        new SysWorkspaceChangeStatusExecutor(ids, WorkspaceStatus.ENABLE).exec();
+    public void enable(List<String> codes) {
+        new SysWorkspaceChangeStatusExecutor(codes, WorkspaceStatus.ENABLE).exec();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void disable(List<Long> ids) {
-        new SysWorkspaceChangeStatusExecutor(ids, WorkspaceStatus.DISABLE).exec();
+    public void disable(List<String> codes) {
+        new SysWorkspaceChangeStatusExecutor(codes, WorkspaceStatus.DISABLE).exec();
     }
 
 }

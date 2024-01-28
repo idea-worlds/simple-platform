@@ -10,16 +10,18 @@ import dev.simpleframework.util.SimpleSpringUtils;
 public class SignOutExecutor {
 
     public void exec() {
+        SysSignOutEvent event = new SysSignOutEvent();
         Long userId = null;
         try {
-            userId = SimpleTokens.getLoginIdAsLong();
+            event.fillUser();
+            event.setTime(System.currentTimeMillis());
+            userId = event.getOperateUserId();
         } catch (Exception ignore) {
         }
-        SimpleTokens.logout();
 
-        // 推送事件
         if (userId != null) {
-            SimpleSpringUtils.publishEvent(new SysSignOutEvent(userId));
+            SimpleTokens.logout();
+            SimpleSpringUtils.publishEvent(event);
         }
     }
 

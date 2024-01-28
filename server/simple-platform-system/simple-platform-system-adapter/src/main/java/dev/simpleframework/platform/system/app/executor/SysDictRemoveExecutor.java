@@ -2,8 +2,8 @@ package dev.simpleframework.platform.system.app.executor;
 
 import dev.simpleframework.crud.core.ConditionType;
 import dev.simpleframework.crud.core.QueryConditions;
-import dev.simpleframework.platform.system.event.SysWorkspaceRemoveEvent;
-import dev.simpleframework.platform.system.infra.data.SysWorkspace;
+import dev.simpleframework.platform.system.event.SysDictRemoveEvent;
+import dev.simpleframework.platform.system.infra.data.SysDict;
 import dev.simpleframework.util.SimpleSpringUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author loyayz (loyayz@foxmail.com)
  */
 @RequiredArgsConstructor
-public class SysWorkspaceRemoveExecutor {
+public class SysDictRemoveExecutor {
     private final List<String> codes;
 
     public void exec() {
@@ -26,12 +26,12 @@ public class SysWorkspaceRemoveExecutor {
 
     private void remove() {
         QueryConditions conditions = QueryConditions.and()
-                .add(SysWorkspace::getCode, ConditionType.in, this.codes);
-        new SysWorkspace().deleteByConditions(conditions);
+                .add(SysDict::getCode, ConditionType.in, this.codes);
+        new SysDict().deleteByConditions(conditions);
     }
 
     private void publishEvent() {
-        SysWorkspaceRemoveEvent event = new SysWorkspaceRemoveEvent();
+        SysDictRemoveEvent event = new SysDictRemoveEvent();
         event.fillUser();
         event.setCodes(this.codes);
         SimpleSpringUtils.publishEvent(event);

@@ -80,6 +80,7 @@ create table sys_workspace
     type        text                                               not null,
     name        text                                               not null,
     icon        text,
+    description text,
     ext_flag    smallint                 default 0                 not null,
     ext_url     text,
     ext_info    jsonb,
@@ -95,6 +96,7 @@ comment on column sys_workspace.code is '编码';
 comment on column sys_workspace.type is '类型';
 comment on column sys_workspace.name is '名称';
 comment on column sys_workspace.icon is '图标';
+comment on column sys_workspace.description is '描述';
 comment on column sys_workspace.ext_flag is '是否外部应用';
 comment on column sys_workspace.ext_url is '外部链接';
 comment on column sys_workspace.ext_info is '外部信息';
@@ -103,3 +105,31 @@ comment on column sys_workspace.status is '状态';
 create unique index idx_sw_code on sys_workspace (code);
 create index idx_sw_sort on sys_workspace (sort_no desc);
 
+
+-- 数据字典
+create table sys_dict
+(
+    id          bigint                                             not null
+        constraint sys_dict_pk primary key,
+    create_time timestamp with time zone default CURRENT_TIMESTAMP not null,
+    create_user bigint                                             not null,
+    update_time timestamp with time zone default CURRENT_TIMESTAMP not null,
+    update_user bigint                                             not null,
+    code        text                                               not null,
+    name        text                                               not null,
+    description text,
+    items       jsonb                    default '{}'::jsonb       not null,
+    sort_no     smallint                 default 0                 not null
+);
+comment on table sys_dict is '数据字典';
+comment on column sys_dict.create_time is '创建时间';
+comment on column sys_dict.create_user is '创建人';
+comment on column sys_dict.update_time is '修改时间';
+comment on column sys_dict.update_user is '修改人';
+comment on column sys_dict.code is '编码';
+comment on column sys_dict.name is '名称';
+comment on column sys_dict.description is '描述';
+comment on column sys_dict.items is '字典项';
+comment on column sys_dict.sort_no is '序号';
+create unique index idx_sd_code on sys_dict (code);
+create index idx_sd_sort on sys_dict (sort_no desc);

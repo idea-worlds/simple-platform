@@ -1,10 +1,7 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.ConditionType;
 import dev.simpleframework.crud.core.QueryConditions;
-import dev.simpleframework.platform.commons.CommonUtils;
-import dev.simpleframework.platform.system.event.BaseOperateUsersEvent;
 import dev.simpleframework.platform.system.event.SysUserDisableEvent;
 import dev.simpleframework.platform.system.event.SysUserEnableEvent;
 import dev.simpleframework.platform.system.infra.constant.UserStatus;
@@ -39,21 +36,17 @@ public class SysUserChangeStatusExecutor {
     }
 
     private void publishEvent() {
-        BaseOperateUsersEvent event;
         if (this.status == UserStatus.ENABLE) {
-            event = new SysUserEnableEvent();
+            SysUserEnableEvent event = new SysUserEnableEvent();
+            event.fillUser();
+            event.setUserIds(this.userIds);
+            SimpleSpringUtils.publishEvent(event);
         } else if (this.status == UserStatus.DISABLE) {
-            event = new SysUserDisableEvent();
-        } else {
-            return;
+            SysUserDisableEvent event = new SysUserDisableEvent();
+            event.fillUser();
+            event.setUserIds(this.userIds);
+            SimpleSpringUtils.publishEvent(event);
         }
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
-        event.setOperateUserId(userId);
-        event.setOperateUserName(userName);
-        event.setChangedUserIds(this.userIds);
-        SimpleSpringUtils.publishEvent(event);
     }
 
 }

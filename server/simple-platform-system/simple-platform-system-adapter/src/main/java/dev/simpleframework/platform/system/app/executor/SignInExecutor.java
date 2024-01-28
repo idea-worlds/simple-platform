@@ -1,8 +1,6 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.QueryConditions;
-import dev.simpleframework.platform.commons.CommonUtils;
 import dev.simpleframework.platform.system.event.SysSignInEvent;
 import dev.simpleframework.platform.system.infra.data.SysUserAccount;
 import dev.simpleframework.platform.system.model.SignInArgs;
@@ -42,10 +40,11 @@ public class SignInExecutor {
     }
 
     private void publishEvent() {
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
-        SimpleSpringUtils.publishEvent(new SysSignInEvent(userId, userName, this.token, this.now));
+        SysSignInEvent event = new SysSignInEvent();
+        event.fillUser();
+        event.setToken(this.token);
+        event.setTime(this.now);
+        SimpleSpringUtils.publishEvent(event);
     }
 
 }

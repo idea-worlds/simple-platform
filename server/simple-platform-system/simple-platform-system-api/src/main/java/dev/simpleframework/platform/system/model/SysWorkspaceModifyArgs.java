@@ -9,8 +9,13 @@ import java.util.Map;
  * @author loyayz (loyayz@foxmail.com)
  */
 @Data
-public class SysWorkspaceUpdateArgs {
+public class SysWorkspaceModifyArgs {
 
+    /**
+     * 编码
+     */
+    @NotBlank(message = "{blank.code}")
+    private String code;
     /**
      * 类型
      */
@@ -25,6 +30,10 @@ public class SysWorkspaceUpdateArgs {
      * 图标
      */
     private String icon;
+    /**
+     * 描述
+     */
+    private String description;
     /**
      * 是否外部应用
      */

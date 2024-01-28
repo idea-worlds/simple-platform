@@ -1,5 +1,7 @@
 package dev.simpleframework.platform.system.event;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,16 +10,11 @@ import lombok.NoArgsConstructor;
  *
  * @author loyayz (loyayz@foxmail.com)
  */
-@Getter
-@NoArgsConstructor
-public class SysSignUpEvent {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SysSignUpEvent extends BaseEvent {
 
-    private Long userId;
     private Long time;
 
-    public SysSignUpEvent(Long userId) {
-        this.userId = userId;
-        this.time = System.currentTimeMillis();
-    }
 
 }

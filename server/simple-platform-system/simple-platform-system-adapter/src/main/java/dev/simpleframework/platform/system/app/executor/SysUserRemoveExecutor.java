@@ -1,9 +1,7 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.ConditionType;
 import dev.simpleframework.crud.core.QueryConditions;
-import dev.simpleframework.platform.commons.CommonUtils;
 import dev.simpleframework.platform.system.event.SysUserRemoveEvent;
 import dev.simpleframework.platform.system.infra.data.SysUser;
 import dev.simpleframework.platform.system.infra.data.SysUserAccount;
@@ -36,13 +34,9 @@ public class SysUserRemoveExecutor {
     }
 
     private void publishEvent() {
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
         SysUserRemoveEvent event = new SysUserRemoveEvent();
-        event.setOperateUserId(userId);
-        event.setOperateUserName(userName);
-        event.setChangedUserIds(this.userIds);
+        event.fillUser();
+        event.setUserIds(this.userIds);
         SimpleSpringUtils.publishEvent(event);
     }
 

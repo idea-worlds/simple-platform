@@ -1,9 +1,7 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.QueryFields;
-import dev.simpleframework.platform.commons.CommonUtils;
-import dev.simpleframework.platform.system.event.SysUserWorkspacesChangeEvent;
+import dev.simpleframework.platform.system.event.SysUserChangeWorkspaceEvent;
 import dev.simpleframework.platform.system.infra.data.SysUser;
 import dev.simpleframework.util.SimpleSpringUtils;
 import lombok.RequiredArgsConstructor;
@@ -101,21 +99,17 @@ public class SysUserChangeWorkspacesExecutor {
     }
 
     private void publishEvent() {
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
-        SysUserWorkspacesChangeEvent event = new SysUserWorkspacesChangeEvent();
-        event.setOperateUserId(userId);
-        event.setOperateUserName(userName);
-        event.setChangedUserIds(this.userIds);
+        SysUserChangeWorkspaceEvent event = new SysUserChangeWorkspaceEvent();
+        event.fillUser();
+        event.setUserIds(this.userIds);
         event.setWorkspaces(this.workspaces);
 
         String operateType = null;
         switch (this.type) {
-            case SET -> operateType = SysUserWorkspacesChangeEvent.TYPE_SET;
-            case REMOVE -> operateType = SysUserWorkspacesChangeEvent.TYPE_REMOVE;
-            case LOCK -> operateType = SysUserWorkspacesChangeEvent.TYPE_LOCK;
-            case UNLOCK -> operateType = SysUserWorkspacesChangeEvent.TYPE_UNLOCK;
+            case SET -> operateType = SysUserChangeWorkspaceEvent.TYPE_SET;
+            case REMOVE -> operateType = SysUserChangeWorkspaceEvent.TYPE_REMOVE;
+            case LOCK -> operateType = SysUserChangeWorkspaceEvent.TYPE_LOCK;
+            case UNLOCK -> operateType = SysUserChangeWorkspaceEvent.TYPE_UNLOCK;
         }
         event.setType(operateType);
         SimpleSpringUtils.publishEvent(event);

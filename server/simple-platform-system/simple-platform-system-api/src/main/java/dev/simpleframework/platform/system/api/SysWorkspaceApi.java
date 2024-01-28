@@ -1,10 +1,9 @@
 package dev.simpleframework.platform.system.api;
 
 import dev.simpleframework.core.PageData;
-import dev.simpleframework.platform.system.model.SysWorkspaceAddArgs;
+import dev.simpleframework.platform.system.model.SysWorkspaceModifyArgs;
 import dev.simpleframework.platform.system.model.SysWorkspacePageQueryArgs;
 import dev.simpleframework.platform.system.model.SysWorkspaceResponse;
-import dev.simpleframework.platform.system.model.SysWorkspaceUpdateArgs;
 
 import java.util.List;
 
@@ -16,9 +15,9 @@ public interface SysWorkspaceApi {
     /**
      * 查询工作空间信息
      *
-     * @param id 工作空间 id
+     * @param code 编码
      */
-    SysWorkspaceResponse findWorkspace(Long id);
+    SysWorkspaceResponse findWorkspace(String code);
 
     /**
      * 分页查询工作空间信息
@@ -28,41 +27,39 @@ public interface SysWorkspaceApi {
     /**
      * 根据编码查询工作空间信息集合
      *
-     * @param codes 工作空间编码
+     * @param codes 编码
      */
-    List<SysWorkspaceResponse> findWorkspacesByCodes(List<String> codes);
+    List<SysWorkspaceResponse> findWorkspaces(List<String> codes);
 
     /**
      * 新增工作空间
      */
-    Long addWorkspace(SysWorkspaceAddArgs args);
+    void addWorkspace(SysWorkspaceModifyArgs args);
 
     /**
      * 修改工作空间
-     *
-     * @param id 工作空间 id
      */
-    void updateWorkspace(Long id, SysWorkspaceUpdateArgs args);
+    void updateWorkspace(SysWorkspaceModifyArgs args);
 
     /**
      * 删除工作空间
      *
-     * @param ids 工作空间 ids
+     * @param codes 编码
      */
-    void removeWorkspaces(List<Long> ids);
+    void removeWorkspaces(List<String> codes);
 
     /**
      * 启用工作空间
      *
-     * @param ids 工作空间 ids
+     * @param codes 编码
      */
-    void enable(List<Long> ids);
+    void enable(List<String> codes);
 
     /**
      * 禁用工作空间
      *
-     * @param ids 工作空间 ids
+     * @param codes 编码
      */
-    void disable(List<Long> ids);
+    void disable(List<String> codes);
 
 }

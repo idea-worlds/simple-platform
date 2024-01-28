@@ -1,6 +1,7 @@
 package dev.simpleframework.platform.system.event;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -10,11 +11,7 @@ import java.util.List;
  * @author loyayz (loyayz@foxmail.com)
  */
 @Data
-public class SysWorkspaceDisableEvent {
-    /**
-     * 操作人
-     */
-    private Long operateUserId;
-    private String operateUserName;
-    private List<Long> workspaceIds;
+@EqualsAndHashCode(callSuper = true)
+public class SysWorkspaceDisableEvent extends BaseEvent {
+    private List<String> codes;
 }

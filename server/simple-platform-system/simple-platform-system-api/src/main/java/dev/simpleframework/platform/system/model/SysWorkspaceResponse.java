@@ -10,7 +10,6 @@ import java.util.Map;
 @Data
 public class SysWorkspaceResponse {
 
-    private Long id;
     /**
      * 编码
      */
@@ -27,6 +26,10 @@ public class SysWorkspaceResponse {
      * 图标
      */
     private String icon;
+    /**
+     * 描述
+     */
+    private String description;
     /**
      * 是否外部应用
      */

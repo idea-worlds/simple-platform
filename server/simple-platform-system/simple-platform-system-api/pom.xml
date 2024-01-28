@@ -16,6 +16,12 @@
     <dependencies>
         <dependency>
             <groupId>dev.simpleframework</groupId>
+            <artifactId>simple-platform-commons</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.simpleframework</groupId>
             <artifactId>simple-core</artifactId>
         </dependency>
 

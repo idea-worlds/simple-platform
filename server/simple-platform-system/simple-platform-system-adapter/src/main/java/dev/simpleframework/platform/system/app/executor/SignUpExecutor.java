@@ -10,9 +10,11 @@ import dev.simpleframework.util.SimpleSpringUtils;
  * @author loyayz (loyayz@foxmail.com)
  */
 public class SignUpExecutor extends SysUserAddExecutor {
+    private final SignUpArgs args;
 
     public SignUpExecutor(SignUpArgs args) {
         super(toAddArgs(args));
+        this.args = args;
     }
 
     @Override
@@ -22,7 +24,10 @@ public class SignUpExecutor extends SysUserAddExecutor {
 
     @Override
     protected void publishEvent() {
-        SysSignUpEvent event = new SysSignUpEvent(super.userId());
+        SysSignUpEvent event = new SysSignUpEvent();
+        event.setOperateUserId(super.userId());
+        event.setOperateUserName(this.args.getUserName());
+        event.setTime(System.currentTimeMillis());
         SimpleSpringUtils.publishEvent(event);
     }
 

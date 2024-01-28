@@ -32,6 +32,10 @@ public class SysWorkspace extends BaseDataModel<SysWorkspace> {
      */
     private String icon;
     /**
+     * 描述
+     */
+    private String description;
+    /**
      * 是否外部应用
      */
     private Integer extFlag;

@@ -1,11 +1,9 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.ConditionType;
 import dev.simpleframework.crud.core.QueryConditions;
 import dev.simpleframework.crud.core.QueryFields;
-import dev.simpleframework.platform.commons.CommonUtils;
-import dev.simpleframework.platform.system.event.SysUserOrgsChangeEvent;
+import dev.simpleframework.platform.system.event.SysUserChangeOrgEvent;
 import dev.simpleframework.platform.system.infra.data.SysUser;
 import dev.simpleframework.util.SimpleSpringUtils;
 import lombok.RequiredArgsConstructor;
@@ -66,19 +64,15 @@ public class SysUserChangeOrgsExecutor {
     }
 
     private void publishEvent() {
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
-        SysUserOrgsChangeEvent event = new SysUserOrgsChangeEvent();
-        event.setOperateUserId(userId);
-        event.setOperateUserName(userName);
-        event.setChangedUserIds(this.userIds);
+        SysUserChangeOrgEvent event = new SysUserChangeOrgEvent();
+        event.fillUser();
+        event.setUserIds(this.userIds);
         event.setOrgs(this.orgs);
 
         String operateType = null;
         switch (this.type) {
-            case SET -> operateType = SysUserOrgsChangeEvent.TYPE_SET;
-            case REMOVE -> operateType = SysUserOrgsChangeEvent.TYPE_REMOVE;
+            case SET -> operateType = SysUserChangeOrgEvent.TYPE_SET;
+            case REMOVE -> operateType = SysUserChangeOrgEvent.TYPE_REMOVE;
         }
         event.setType(operateType);
         SimpleSpringUtils.publishEvent(event);

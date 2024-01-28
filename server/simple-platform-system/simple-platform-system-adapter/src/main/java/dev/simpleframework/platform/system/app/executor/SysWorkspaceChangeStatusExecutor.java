@@ -1,9 +1,7 @@
 package dev.simpleframework.platform.system.app.executor;
 
-import dev.simpleframework.core.Pair;
 import dev.simpleframework.crud.core.ConditionType;
 import dev.simpleframework.crud.core.QueryConditions;
-import dev.simpleframework.platform.commons.CommonUtils;
 import dev.simpleframework.platform.system.event.SysWorkspaceDisableEvent;
 import dev.simpleframework.platform.system.event.SysWorkspaceEnableEvent;
 import dev.simpleframework.platform.system.infra.constant.WorkspaceStatus;
@@ -18,11 +16,11 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class SysWorkspaceChangeStatusExecutor {
-    private final List<Long> ids;
+    private final List<String> codes;
     private final WorkspaceStatus status;
 
     public void exec() {
-        if (this.ids == null || this.ids.isEmpty()) {
+        if (this.codes == null || this.codes.isEmpty()) {
             return;
         }
         this.updateStatus();
@@ -33,25 +31,20 @@ public class SysWorkspaceChangeStatusExecutor {
         SysWorkspace dao = new SysWorkspace();
         dao.setStatus(this.status.name());
         QueryConditions conditions = QueryConditions.and()
-                .add(SysWorkspace::getId, ConditionType.in, this.ids);
+                .add(SysWorkspace::getCode, ConditionType.in, this.codes);
         dao.updateByConditions(conditions);
     }
 
     private void publishEvent() {
-        Pair<Long, String> user = CommonUtils.getLoginUser();
-        Long userId = user.getLeft();
-        String userName = user.getRight();
         if (this.status == WorkspaceStatus.ENABLE) {
             SysWorkspaceEnableEvent event = new SysWorkspaceEnableEvent();
-            event.setOperateUserId(userId);
-            event.setOperateUserName(userName);
-            event.setWorkspaceIds(this.ids);
+            event.fillUser();
+            event.setCodes(this.codes);
             SimpleSpringUtils.publishEvent(event);
         } else if (this.status == WorkspaceStatus.DISABLE) {
             SysWorkspaceDisableEvent event = new SysWorkspaceDisableEvent();
-            event.setOperateUserId(userId);
-            event.setOperateUserName(userName);
-            event.setWorkspaceIds(this.ids);
+            event.fillUser();
+            event.setCodes(this.codes);
             SimpleSpringUtils.publishEvent(event);
         }
     }
