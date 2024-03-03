@@ -3,7 +3,6 @@ package dev.simpleframework.platform.system.infra.data;
 import dev.simpleframework.platform.commons.BaseDataModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,28 +30,21 @@ public class SysDict extends BaseDataModel<SysDict> {
      * 外部信息
      */
     private Map<String, Item> items;
-    /**
-     * 序号（越大越前）
-     */
-    private Integer sortNo;
 
-    public void addItem(String code, String name, Integer sortNo) {
+    public void addItem(String code, String name, String val) {
         if (this.items == null) {
             this.items = new LinkedHashMap<>();
         }
-        this.items.put(code, new Item(name, sortNo));
+        Item item = new Item();
+        item.setName(name);
+        item.setVal(val);
+        this.items.put(code, item);
     }
 
     @Data
-    @NoArgsConstructor
     public static class Item {
         private String name;
-        private Integer sortNo;
-
-        public Item(String name, Integer sortNo) {
-            this.name = name;
-            this.sortNo = sortNo;
-        }
+        private String val;
     }
 
 }

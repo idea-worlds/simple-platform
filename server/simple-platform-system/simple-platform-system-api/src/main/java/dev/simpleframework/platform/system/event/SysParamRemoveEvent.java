@@ -3,13 +3,15 @@ package dev.simpleframework.platform.system.event;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
- * 事件：新增数据字典
+ * 事件：删除系统参数
  *
  * @author loyayz (loyayz@foxmail.com)
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysDictAddEvent extends BaseEvent {
-    private String code;
+public class SysParamRemoveEvent extends BaseEvent {
+    private List<String> codes;
 }

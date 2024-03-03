@@ -1,8 +1,8 @@
 package dev.simpleframework.platform.system.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,19 +27,17 @@ public class SysDictResponse {
      * 字典项
      */
     private List<Item> items;
-    /**
-     * 序号（越大越前）
-     */
-    private Integer sortNo;
 
-    public void addItem(String code, String name, Integer sortNo) {
-        Item item = new Item(code, name, sortNo);
+    public void addItem(String code, String name, String val) {
+        Item item = new Item();
+        item.setCode(code);
+        item.setName(name);
+        item.setVal(val);
         this.items.add(item);
-        this.items.sort((o1, o2) -> o2.getSortNo().compareTo(o1.getSortNo()));
+        this.items.sort(Comparator.comparing(Item::getCode));
     }
 
     @Data
-    @NoArgsConstructor
     public static class Item {
         /**
          * 编码
@@ -50,15 +48,9 @@ public class SysDictResponse {
          */
         private String name;
         /**
-         * 序号（越大越前）
+         * 值
          */
-        private Integer sortNo;
-
-        public Item(String code, String name, Integer sortNo) {
-            this.code = code;
-            this.name = name;
-            this.sortNo = sortNo;
-        }
+        private String val;
     }
 
 }

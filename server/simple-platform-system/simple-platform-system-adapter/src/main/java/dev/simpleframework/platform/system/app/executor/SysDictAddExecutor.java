@@ -34,8 +34,7 @@ public class SysDictAddExecutor {
         dict.setCode(this.args.getCode());
         dict.setName(this.args.getName());
         dict.setDescription(this.args.getDescription());
-        dict.setSortNo(this.args.getSortNo());
-        this.args.getItems().forEach(i -> dict.addItem(i.getCode(), i.getName(), i.getSortNo()));
+        this.args.getItems().forEach(i -> dict.addItem(i.getCode(), i.getName(), i.getVal()));
 
         dict.insert();
     }

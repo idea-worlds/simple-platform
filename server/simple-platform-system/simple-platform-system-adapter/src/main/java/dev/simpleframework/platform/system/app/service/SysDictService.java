@@ -42,7 +42,7 @@ public class SysDictService implements SysDictApi {
         QueryConfig config = QueryConfig.of()
                 .addCondition(SysDict::getCode, ConditionType.like_all, args.getCode())
                 .addCondition(SysDict::getName, ConditionType.like_all, args.getName())
-                .addSorter(QuerySorters.desc(SysDict::getSortNo));
+                .addSorter(QuerySorters.asc(SysDict::getCode));
         Page<SysDictResponse> page = new SysDict()
                 .pageByConditions(pageNum, pageSize, config)
                 .convert(SysConverter::toResponse);

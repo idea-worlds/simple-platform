@@ -13,29 +13,29 @@ import java.util.List;
 public interface SysDictApi {
 
     /**
-     * 查询工作空间信息
+     * 查询数据字典信息
      *
      * @param code 编码
      */
     SysDictResponse findDict(String code);
 
     /**
-     * 分页查询工作空间信息
+     * 分页查询数据字典信息
      */
     PageData<SysDictResponse> findDicts(SysDictPageQueryArgs args, int pageNum, int pageSize);
 
     /**
-     * 新增工作空间
+     * 新增数据字典
      */
     void addDict(SysDictModifyArgs args);
 
     /**
-     * 修改工作空间
+     * 修改数据字典
      */
     void updateDict(SysDictModifyArgs args);
 
     /**
-     * 删除工作空间
+     * 删除数据字典
      *
      * @param codes 编码
      */

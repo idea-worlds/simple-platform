@@ -1,6 +1,9 @@
 package dev.simpleframework.platform.system.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Collections;
@@ -29,11 +32,10 @@ public class SysDictModifyArgs {
     /**
      * 字典项
      */
+    @Valid
+    @NotNull(message = "{blank.item}")
+    @NotEmpty(message = "{blank.item}")
     private List<Item> items;
-    /**
-     * 序号（越大越前）
-     */
-    private Integer sortNo;
 
     public List<Item> getItems() {
         return items == null ? Collections.emptyList() : items;
@@ -52,13 +54,10 @@ public class SysDictModifyArgs {
         @NotBlank(message = "{blank.name}")
         private String name;
         /**
-         * 序号（越大越前）
+         * 值
          */
-        private Integer sortNo;
-
-        public Integer getSortNo() {
-            return sortNo == null ? 0 : sortNo;
-        }
+        @NotBlank(message = "{blank.val}")
+        private String val;
     }
 
 }

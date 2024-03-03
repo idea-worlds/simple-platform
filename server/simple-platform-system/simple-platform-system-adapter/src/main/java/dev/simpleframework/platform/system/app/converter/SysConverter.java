@@ -2,8 +2,10 @@ package dev.simpleframework.platform.system.app.converter;
 
 import dev.simpleframework.platform.commons.CommonUtils;
 import dev.simpleframework.platform.system.infra.data.SysDict;
+import dev.simpleframework.platform.system.infra.data.SysParam;
 import dev.simpleframework.platform.system.infra.data.SysWorkspace;
 import dev.simpleframework.platform.system.model.SysDictResponse;
+import dev.simpleframework.platform.system.model.SysParamResponse;
 import dev.simpleframework.platform.system.model.SysWorkspaceResponse;
 
 /**
@@ -37,8 +39,19 @@ public final class SysConverter {
         response.setCode(data.getCode());
         response.setName(data.getName());
         response.setDescription(data.getDescription());
-        response.setSortNo(data.getSortNo());
-        data.getItems().forEach((code, i) -> response.addItem(code, i.getName(), i.getSortNo()));
+        data.getItems().forEach((code, i) -> response.addItem(code, i.getName(), i.getVal()));
+        return response;
+    }
+
+    public static SysParamResponse toResponse(SysParam data) {
+        if (data == null) {
+            return null;
+        }
+        SysParamResponse response = new SysParamResponse();
+        response.setCode(data.getCode());
+        response.setName(data.getName());
+        response.setVal(data.getVal());
+        response.setDescription(data.getDescription());
         return response;
     }
 

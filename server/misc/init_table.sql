@@ -118,8 +118,7 @@ create table sys_dict
     code        text                                               not null,
     name        text                                               not null,
     description text,
-    items       jsonb                    default '{}'::jsonb       not null,
-    sort_no     smallint                 default 0                 not null
+    items       jsonb                    default '{}'::jsonb       not null
 );
 comment on table sys_dict is '数据字典';
 comment on column sys_dict.create_time is '创建时间';
@@ -130,6 +129,31 @@ comment on column sys_dict.code is '编码';
 comment on column sys_dict.name is '名称';
 comment on column sys_dict.description is '描述';
 comment on column sys_dict.items is '字典项';
-comment on column sys_dict.sort_no is '序号';
 create unique index idx_sd_code on sys_dict (code);
-create index idx_sd_sort on sys_dict (sort_no desc);
+
+
+-- 系统参数
+create table sys_param
+(
+    id          bigint                                             not null
+        constraint sys_param_pk primary key,
+    create_time timestamp with time zone default CURRENT_TIMESTAMP not null,
+    create_user bigint                                             not null,
+    update_time timestamp with time zone default CURRENT_TIMESTAMP not null,
+    update_user bigint                                             not null,
+    code        text                                               not null,
+    name        text                                               not null,
+    val         text                                               not null,
+    description text,
+);
+comment on table sys_param is '系统参数';
+comment on column sys_param.create_time is '创建时间';
+comment on column sys_param.create_user is '创建人';
+comment on column sys_param.update_time is '修改时间';
+comment on column sys_param.update_user is '修改人';
+comment on column sys_param.code is '编码';
+comment on column sys_param.name is '名称';
+comment on column sys_param.val is '值';
+comment on column sys_param.description is '描述';
+create unique index idx_sp_code on sys_param (code);
+
